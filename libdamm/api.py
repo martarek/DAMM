@@ -27,6 +27,10 @@ import sqlite3
 import itertools
 import db_ops
 import warnings
+import re
+import volatility.registry as registry
+import volatility.commands as commands
+import volatility.addrspace as addrspace
 
 
 class API:
@@ -189,12 +193,21 @@ class API:
         # Are we an empty db? If so, init the db.
         if self.db_ops.db_empty(self.db):
             env = []
-            import volatility.plugins.envars as envars
-            for task in envars.Envars(self.vol.config).calculate():
-                if task.ImageFileName.lower() == 'explorer.exe':
-                    for var, val in task.environment_variables():
-                        env.append((var, val))
-                    break
+            if re.search("LINUX",self.profile,re.IGNORECASE):
+                registry.register_global_options(self.vol.config, addrspace.BaseAddressSpace)
+                registry.register_global_options(self.vol.config, commands.Command)
+                cmds = registry.get_plugin_classes(commands.Command, lower = True)
+                command = cmds[plug](self.vol.config)
+                command._config.OUTPUT = "text"
+                command.execute()
+                asd = "asdas";
+            else:
+                import volatility.plugins.envars as envars
+                for task in envars.Envars(self.vol.config).calculate():
+                    if task.ImageFileName.lower() == 'explorer.exe':
+                        for var, val in task.environment_variables():
+                            env.append((var, val))
+                        break
 
             self.db_ops.init_db(self.db, self.memimg, self.profile, env)
         
