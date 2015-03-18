@@ -191,13 +191,14 @@ class API:
         @return list of plugin results
         '''
         # Are we an empty db? If so, init the db.
-        if self.db_ops.db_empty(self.db):
+        if self.db_ops.db_empty(self.db) or True:
             env = []
             if re.search("LINUX",self.profile,re.IGNORECASE):
                 registry.register_global_options(self.vol.config, addrspace.BaseAddressSpace)
                 registry.register_global_options(self.vol.config, commands.Command)
                 cmds = registry.get_plugin_classes(commands.Command, lower = True)
                 command = cmds[plug](self.vol.config)
+                #FIXME find where the output is initated
                 command._config.OUTPUT = "text"
                 command.execute()
                 asd = "asdas";
