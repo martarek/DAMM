@@ -44,10 +44,19 @@ class LinuxPsxviewSet(memobj.MemObjectSet):
 
     def get_all(self):
         '''
-        Mimics Volatility's psxview, pslist, psscan, cmdline plugins
+        Mimics Volatility's psxview, pslist, pid_hash, kmem_cache, parents, thread_leaders plugins
         '''
         import volatility.plugins.linux.psxview as psxview
-
+        db = None
+        nextIsDbName = False
+        for a in self.vol.config.args:
+            if nextIsDbName:
+                db = a
+                break
+            if a == "--db":
+                nextIsDbName = True
+        self.vol.config.OUTPUT_FILE = db
+        self.vol.config.OUTPUT = 'sqlite'
         for offset, process, ps_sources in psxview.linux_psxview(self.vol.config).calculate():
             yield LinuxPsxview(process, ps_sources, offset)
 
@@ -77,9 +86,9 @@ class LinuxPsxview(memobj.MemObject):
         memobj.MemObject.__init__(self, off)
 
         # These are all of the process fields we know about
-        self.fields['name'] = str(task.comm) if task else ''
-        self.fields['pid'] = str(task.pid) if task else ''
-        self.fields['Start Time'] = str(task.get_task_start_time()) if task else ''
+        self.fields['Name'] = str(task.comm) if task else ''
+        self.fields['PID'] = str(task.pid) if task else ''
+        #self.fields['Start Time'] = str(task.get_task_start_time()) if task else ''
 
         self.fields['pslist'] = str(xview['pslist'].__contains__(offset)) if xview else ''
         self.fields['pid_hash'] = str(xview['pid_hash'].__contains__(offset)) if xview else ''
