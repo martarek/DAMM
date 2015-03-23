@@ -7,7 +7,7 @@ def getPluginObject(vol):
 
     @return: a ProcessSet instance
     '''
-    return LinuxProcessSet(vol)
+    return LinuxPslistSet(vol)
 
 
 def getFields():
@@ -16,9 +16,9 @@ def getFields():
 
     @return: ordered list of Process fields keys
     '''
-    return LinuxProcess().get_field_keys()
+    return LinuxPslist().get_field_keys()
 
-class LinuxProcessSet(memobj.MemObjectSet):
+class LinuxPslistSet(memobj.MemObjectSet):
     '''
     Manage sets of Windows processes parsed from memory dumps
     '''
@@ -53,11 +53,11 @@ class LinuxProcessSet(memobj.MemObjectSet):
                 dtb = task.mm.pgd
             else:
                 dtb = psl.addr_space.vtop(task.mm.pgd) or task.mm.pgd
-            yield LinuxProcess(task,dtb)
+            yield LinuxPslist(task,dtb)
 
 
     def get_child(self):
-        return LinuxProcess()
+        return LinuxPslist()
 
 
     def get_unique_id(self, proc):
@@ -72,7 +72,7 @@ class LinuxProcessSet(memobj.MemObjectSet):
         return elems
 
 
-class LinuxProcess(memobj.MemObject):
+class LinuxPslist(memobj.MemObject):
     def __init__(self, task=None,dtb=None):
 
         # Must init superclass
