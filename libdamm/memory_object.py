@@ -67,7 +67,9 @@ class MemObjectSet(object):
         memobj = self.get_child()
         fields = memobj.fields.keys()
         for i, name in enumerate(row):
-            memobj.fields[fields[i]] = row[i]
+            if not isinstance(name,str):
+                name = str(name)
+            memobj.fields[fields[i]] = name
 
         return memobj
 
@@ -178,7 +180,10 @@ class MemObject(object):
         # Using ordereddict gets us free logical ordering when printing results
         self.fields = OrderedDict()
 
+        self.fields['Id'] = 0
+        self.fields['Rowparent'] = 0
         self.fields['offset'] = offset
+
     
 
     def get_field_keys(self):

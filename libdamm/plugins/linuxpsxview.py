@@ -30,9 +30,8 @@ class LinuxPsxviewSet(memobj.MemObjectSet):
         @return: the type definitions for filtering for Process memobjs
         '''
         defs = {}
-        defs['pid'] = ['pid', 'ppid']
-        defs['time'] = ['create_time', 'exit_time']
-        defs['string'] = ['name']
+        defs['PID'] = ['PID']
+        defs['string'] = ['Name']
         return defs
 
 
@@ -69,7 +68,7 @@ class LinuxPsxviewSet(memobj.MemObjectSet):
         '''
         @return: the default unique id for Process memobjs
         '''
-        return (proc.fields['pid'], proc.fields['name'], proc.fields['ppid'], proc.fields['Start Time'])
+        return (proc.fields['PID'], proc.fields['Name'])
 
 
     def sort_elems(self, elems):
@@ -81,14 +80,16 @@ class LinuxPsxview(memobj.MemObject):
 
     def __init__(self, task=None, xview=None, offset=None):
 
+
+
         # Must init superclass
         off = str(hex(offset)).rstrip('L') if offset else None
         memobj.MemObject.__init__(self, off)
 
+
         # These are all of the process fields we know about
         self.fields['Name'] = str(task.comm) if task else ''
         self.fields['PID'] = str(task.pid) if task else ''
-        #self.fields['Start Time'] = str(task.get_task_start_time()) if task else ''
 
         self.fields['pslist'] = str(xview['pslist'].__contains__(offset)) if xview else ''
         self.fields['pid_hash'] = str(xview['pid_hash'].__contains__(offset)) if xview else ''

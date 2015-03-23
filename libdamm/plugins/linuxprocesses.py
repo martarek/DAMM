@@ -39,7 +39,7 @@ class LinuxProcessSet(memobj.MemObjectSet):
 
         self.vol = vol
         #self.vol.config.optparse_opts.output = "sqlite"
-        self.vol.config.optparse_opts.output_file
+        #self.vol.config.optparse_opts.output_file
 
 
     def get_all(self):
