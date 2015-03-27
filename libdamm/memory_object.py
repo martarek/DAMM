@@ -67,7 +67,7 @@ class MemObjectSet(object):
         memobj = self.get_child()
         fields = memobj.fields.keys()
         for i, name in enumerate(row):
-            if fields[i] == 'Id' or fields[i] == 'Rowparent':
+            if fields[i] == 'Id':
                 name = 0
             if not isinstance(name,str):
                 name = str(name)
