@@ -73,6 +73,9 @@ class LinuxUnifiedpstree(memobj.MemObject):
 
         # These are all of the process fields we know about
         self.fields['Task_Name'] = ''
+        self.fields['Level'] = ''
         self.fields['Task_PID'] = ''
         self.fields['Task_PPID'] = ''
         self.fields['Task_UID'] = ''
+        self.fields['Task_GID'] = ''
+        self.fields['Task_EUID'] = ''
