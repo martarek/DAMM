@@ -197,7 +197,6 @@ class API:
                 if plug in self.pluglib.getPluginList():
                     setobj = self.pluglib.getPlugin(plug).handle.getPluginObject(self.vol)
                     setobj.get_all()
-                    asd = "asdas"
             elif re.match("WIN",self.profile,re.IGNORECASE):
                 import volatility.plugins.envars as envars
                 for task in envars.Envars(self.vol.config).calculate():
@@ -356,8 +355,10 @@ class API:
         '''
         # Table name is of form modulename_setobjname
         # module name == plugin name
+        ######################################################################################################
         #mod_name, setobj_name = table,table+"Set"
         mod_name, setobj_name = table.split("_")
+        ######################################################################################################
         mod = __import__(mod_name)
 
         res = {}
@@ -425,14 +426,19 @@ class API:
 
         # Can only compare memobjs for tables which exist n both dbs
         compareable = set.intersection(set(diff_tables), set(db_tables))
+        ######################################################################################################
         #compareable = [x for x in compareable if x in self.plugins]
         compareable = [x for x in compareable if x.split("_")[0] in self.plugins]
+        ######################################################################################################
         debug("Can't compare %s" % str(set.symmetric_difference(set(diff_tables), set(db_tables))))
 
         res = []        
         for table in compareable:
             changed, new, setobj = self.do_diff(table)
+            ######################################################################################################
+            #res.append((changed, new, table))
             res.append((changed, new, table.split("_")[0]))
+            ######################################################################################################
         return res
 
 
