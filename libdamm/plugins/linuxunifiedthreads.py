@@ -56,7 +56,7 @@ class LinuxUnifiedthreadsSet(memobj.MemObjectSet):
         '''
         @return: the default unique id for Process memobjs
         '''
-        return (proc.fields['Task_PID'], proc.fields['Task_Name'],proc.fields['Thread_Name'],proc.fields['Thread_PID'])
+        return (proc.fields['Task_PID'], proc.fields['Task_Name'],proc.fields['Thread_Name'],proc.fields['Thread_PID'],proc.fields['Thread_addr_limit'])
 
 
     def sort_elems(self, elems):
@@ -76,3 +76,8 @@ class LinuxUnifiedthreads(memobj.MemObject):
         self.fields['Task_PID'] = ''
         self.fields['Thread_PID'] = ''
         self.fields['Thread_Name'] = ''
+        self.fields['Thread_Offset'] = ''
+        self.fields['Thread_addr_limit'] = ''
+        self.fields['Thread_uid'] = ''
+        self.fields['Thread_gid'] = ''
+        self.fields['Thread_euid'] = ''

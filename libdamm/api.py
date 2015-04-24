@@ -356,6 +356,7 @@ class API:
         '''
         # Table name is of form modulename_setobjname
         # module name == plugin name
+        #mod_name, setobj_name = table,table+"Set"
         mod_name, setobj_name = table.split("_")
         mod = __import__(mod_name)
 
@@ -424,6 +425,7 @@ class API:
 
         # Can only compare memobjs for tables which exist n both dbs
         compareable = set.intersection(set(diff_tables), set(db_tables))
+        #compareable = [x for x in compareable if x in self.plugins]
         compareable = [x for x in compareable if x.split("_")[0] in self.plugins]
         debug("Can't compare %s" % str(set.symmetric_difference(set(diff_tables), set(db_tables))))
 
