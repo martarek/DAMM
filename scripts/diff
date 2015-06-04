@@ -2,12 +2,12 @@
 #First param is the db file name without the before/after so the two files must be named exemplebefore and exempleafter 
 #and the arg would be exemple
 #Second param is the plugin name without the "linux_". For linux_unifiedpstree you would write unifiedpstree
-dbFile="$1"
-pathToFile="/home/jonathan/db/"
-dbFileBefore="${pathToFile}${dbFile}before"
-dbFileAfter="${pathToFile}${dbFile}after"
-plugin="$2"
-linuxplugin="linux$plugin"
-path="/home/jonathan/damm_linux/damm.py"
-python $path -p $linuxplugin --db $dbFileAfter --diff $dbFileBefore
+DB_FILENAME="$1"
+DATABASE_HOME_DIR="/home/jonathan/db/"
+DB_FILE_BEFORE="${DATABASE_HOME_DIR}${DB_FILENAME}before"
+DB_FILE_AFTER="${DATABASE_HOME_DIR}${DB_FILENAME}after"
+SELECTED_PLUGIN="$2"
+LINUX_PLUGIN_NAME="linux$SELECTED_PLUGIN"
+DAMM_PATH="/home/jonathan/damm_linux/damm.py"
+python $DAMM_PATH -p $LINUX_PLUGIN_NAME --db $dbFileAfter --diff $DB_FILE_BEFORE
 

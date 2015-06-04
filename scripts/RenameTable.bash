@@ -1,10 +1,10 @@
 #!/bin/bash
-dbFile="$1"
-plugin="$2"
-linuxplugin="linux_$plugin"
-linuxpluginfullname="linux${plugin}_Linux${plugin^}Set"
-echo $linuxpluginfullname
+DB_FILENAME="$1"
+PLUGIN_NAME="$2"
+LINUX_PLUGIN_FULL_VOLATILITY_NAME="linux_$PLUGIN_NAME"
+LINUX_PLUGIN_FULL_DAMM_NAME="linux${PLUGIN_NAME}_Linux${PLUGIN_NAME^}Set"
+echo $LINUX_PLUGIN_FULL_DAMM_NAME
 
-sqlite3 $dbFile	"ALTER TABLE '$linuxplugin' RENAME TO $linuxpluginfullname";
+sqlite3 $DB_FILENAME	"ALTER TABLE '$LINUX_PLUGIN_FULL_VOLATILITY_NAME' RENAME TO $LINUX_PLUGIN_FULL_DAMM_NAME";
 
 
